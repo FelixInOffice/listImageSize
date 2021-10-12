@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Images Size</title>
+</head>
+<body>
+
+    <input type="file" id="filepicker" name="fileList" webkitdirectory multiple />
+    <table id="tableID" border="1" style="display: none;"><th>File</th><th>Size</th></table>
+    
+<script>
+    document.getElementById("filepicker").addEventListener("change", function(event) {
+    let output = document.getElementById("tableID");
+    let files = event.target.files;
+
+    console.log(event);
+
+    var type = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png)$/i;
+        for (let i=0; i<files.length; i++) {
+            
+            const img = new Image();
+                img.onload = function() {
+                    document.getElementById('tableID').style.display = "";
+                    if (type.exec(files[i].name)) {
+                        let trNode = document.createElement("tr");
+                        trNode.innerHTML = '<td><a href="'+ files[i].webkitRelativePath + '">' + files[i].name + '</a></td><td>' + this.width + 'x' + this.height + '</td>';
+                        output.appendChild(trNode);
+                    }
+                    console.log(this.width + 'x' + this.height);
+                }
+                console.log(files[i].webkitRelativePath);
+                img.src = files[i].webkitRelativePath;
+
+
+        };
+    }, false);
+</script>
+</body>
+</html>
